@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
+import Image from "next/image";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/api",
@@ -14,14 +14,17 @@ export const getAlbums = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
-    throw error; 
+    throw error;
   }
 };
+
+
 
 interface IAlbum {
   id: number;
   title: string;
   remark: string;
+  image: string;
 }
 
 const Page = () => {
@@ -44,9 +47,8 @@ const Page = () => {
     fetchData();
   }, []);
 
-  console.log(data, 'data from api');
-  
-  
+  console.log(data, "data from api");
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -63,6 +65,7 @@ const Page = () => {
         <div key={album.id}>
           <div>{album.title}</div>
           <div>{album.remark}</div>
+          <Image src={album.image} alt="image" width={300} height={300}></Image>
         </div>
       ))}
     </div>
